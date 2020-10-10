@@ -24,6 +24,13 @@ n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
 '''
 
 
+# 采用递归的方式进行求解：
+# 递归通项为：  {
+# n = 0, res = 1
+# n 为偶数时, res = [x**(n/2)]  *  [x**(n/2)]
+# n 为奇数时，res = x ** (n -1)  * x
+# }
+
 class Solution(object):
     def myPow(self, x, n):
         """
@@ -31,14 +38,15 @@ class Solution(object):
         :type n: int
         :rtype: float
         """
-        if n == 1:
-            return x
-        cur = 1
-        tmp = x
-        while 2*cur <= n:
-            tmp = tmp * tmp
-            cur *= 2
-        return tmp*self.myPow(x, n-cur)
+        if n < 0:
+            n = -n
+            x = 1 / x
+        if n == 0:
+            return 1
+        if n % 2 == 0:
+            return self.myPow(x, n // 2) ** 2
+        else:
+            return self.myPow(x, n - 1) * x
 
 a = Solution()
 r = a.myPow(2,9)
