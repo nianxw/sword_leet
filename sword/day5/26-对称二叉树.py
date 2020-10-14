@@ -27,3 +27,31 @@
 输入：root = [1,2,2,null,3,null,3]
 输出：false
 '''
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if root is None:
+            return True
+        return self.dfs(root.left, root.right)
+
+    def dfs(self, A, B):
+        if (A is None and B is not None) or (A is not None and B is None):
+            return False
+        if A is None and B is None:
+            return True
+        if A.val == B.val:
+            if self.dfs(A.left, B.right) and self.dfs(A.right, B.left):
+                return True
+        return False
