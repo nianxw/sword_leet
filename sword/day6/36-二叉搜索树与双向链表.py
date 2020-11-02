@@ -40,4 +40,37 @@ class Solution(object):
         head.left = cur
         cur.right = head
         return head
-        
+
+
+# 2. 直接递归原函数，因为头节点包含了其尾节点的信息
+
+class Solution(object):
+    def treeToDoublyList(self, root):
+        if not root:
+            return None
+        left = self.treeToDoublyList(root.left)
+        right = self.treeToDoublyList(root.right)
+        if not left and not right:
+            root.left = root
+            root.right = root
+            return root
+        elif not left:
+            root.right = right
+            root.left = right.left
+            right.left.right = root
+            right.left = root
+            return root
+        elif not right:
+            root.left = left.left
+            root.right = left
+            left.left.right = root
+            left.left = root
+            return left
+        else:
+            root.left = left.left
+            root.right = right
+            left.left.right = root
+            left.left = right.left
+            right.left.right = left
+            right.left = root
+            return left
