@@ -11,52 +11,7 @@
 from collections import defaultdict
 
 
-# # 查根
-# def find(x, parent):
-#     r = x
-#     while r != parent[r]:
-#         r = parent[r]
-#     return r
-
-
-# def union(x, y, parent):
-#     x_root = find(x, parent)
-#     y_root = find(y, parent)
-#     # 将x作为根节点
-#     if x_root != y_root:
-#         parent[y_root] = x_root
-
-
-# class Solution(object):
-#     def findCircleNum(self, M):
-#         """
-#         :type M: List[List[int]]
-#         :rtype: int
-#         """
-#         parent = defaultdict(int) # 字典或者列表都可以
-#         # parent = [i for i in range(len(M))]  # [0, 1, 2]
-#         ans = set()
-#         if not M:
-#             return 0
-#         for i in range(len(M)):
-#             parent[i] = i
-#         for i in range(len(M)):
-#             for j in range(i, len(M[0])):
-#                 if M[i][j] == 1:
-#                     union(i, j, parent)
-#         # 所有节点的都有哪些情况，一种情况代表一个连通分量
-#         for i in parent:
-#             ans.add(find(i, parent))
-
-#         return len(ans)
-
-
-# a = Solution()
-# print(a.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
-
-
-# 2.优化
-
+# 查根
 def find(x, parent):
     r = x
     while r != parent[r]:
@@ -64,9 +19,54 @@ def find(x, parent):
     return r
 
 
-def union(x, y, parent, size):
+def union(x, y, parent):
     x_root = find(x, parent)
     y_root = find(y, parent)
+    # 将x作为根节点
+    if x_root != y_root:
+        parent[y_root] = x_root
+
+
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        parent = defaultdict(int) # 字典或者列表都可以
+        # parent = [i for i in range(len(M))]  # [0, 1, 2]
+        ans = set()
+        if not M:
+            return 0
+        for i in range(len(M)):
+            parent[i] = i
+        for i in range(len(M)):
+            for j in range(i, len(M[0])):
+                if M[i][j] == 1:
+                    union(i, j, parent)
+        # 所有节点的都有哪些情况，一种情况代表一个连通分量
+        for i in parent:
+            ans.add(find(i, parent))
+
+        return len(ans)
+
+
+a = Solution()
+print(a.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+
+
+# 2.优化
+
+def find1(x, parent):
+    r = x
+    while r != parent[r]:
+        r = parent[r]
+    return r
+
+
+def union1(x, y, parent, size):
+    x_root = find1(x, parent)
+    y_root = find1(y, parent)
     # 将x作为根节点
     if x_root != y_root:
         if size[x_root] > size[y_root]:
@@ -76,7 +76,7 @@ def union(x, y, parent, size):
             parent[x_root] = y_root
             size[y_root] += size[x_root]
 
-class Solution(object):
+class Solution1(object):
     def findCircleNum(self, M):
         """
         :type M: List[List[int]]
@@ -94,7 +94,7 @@ class Solution(object):
         for i in range(len(M)):
             for j in range(i, len(M[0])):
                 if M[i][j] == 1:
-                    union(i, j, parent, size)
+                    union1(i, j, parent, size)
         # 所有节点的都有哪些情况，一种情况代表一个连通分量
         for i in parent:
             ans.add(find(i, parent))
