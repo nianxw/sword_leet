@@ -9,6 +9,8 @@
 输出: 5
 '''
 
+# 采用归并排序，merge的过程中，如果左边数组中的数大于右边数组中的数，则左边到最后都大于右边的这个数（有序数组）
+
 
 class Solution(object):
     def reversePairs(self, nums):
