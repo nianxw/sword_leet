@@ -73,7 +73,7 @@ class Codec:
         while q:
             node = q.pop(0)
             if node:
-                res += str(node.val)
+                res += str(node.val) + '!'
                 q.append(node.left)
                 q.append(node.right)
             else:
@@ -102,5 +102,5 @@ class Codec:
             if right != '#':
                 node.right = TreeNode(int(right))
                 q.append(node.right)
-
+            i += 2
         return root 
